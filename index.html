@@ -1,0 +1,152 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+<title>关注博主动态 · 北京时间</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--fg:#14161a;--sub:#5f6672;--mut:#8a919c;--line:#e7e9ee;--soft:#f3f4f7;--acc:#2563eb;--accs:#e8efff;--q:#c2410c;--qs:#fff1e6;--sh:0 1px 2px rgba(16,24,40,.04),0 2px 8px rgba(16,24,40,.05);--r:14px;
+--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--srr:env(safe-area-inset-right,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#181b21;--fg:#e8eaee;--sub:#a3a9b4;--mut:#757c88;--line:#262a32;--soft:#1f232a;--acc:#6b9bff;--accs:#1d2840;--q:#fb923c;--qs:#33241a;--sh:0 1px 2px rgba(0,0,0,.4)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;overflow-x:hidden}
+button,select,input{font:inherit;color:inherit}
+.app{max-width:1120px;margin:0 auto;padding:0 calc(12px + var(--srr)) 0 calc(12px + var(--sl))}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);padding-top:var(--st);border-bottom:1px solid var(--line);margin:0 -12px;padding-left:12px;padding-right:12px}
+.brand{display:flex;align-items:center;gap:10px;padding:10px 0 4px}
+.logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px;flex:none}
+.brand h1{font-size:17px;margin:0;line-height:1.2;letter-spacing:.2px}.brand p{margin:0;font-size:11.5px;color:var(--mut);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt{flex:none;margin-left:auto;min-width:44px;height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:14px}
+.bt.on{border-color:var(--acc);color:var(--acc)}.dot{width:7px;height:7px;border-radius:50%;background:var(--acc);display:none}.bt.has .dot{display:inline-block}
+.daterow{display:flex;align-items:center;gap:6px;padding:6px 0}
+.ib{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer}
+.ib:disabled{opacity:.35}.ib svg{width:18px;height:18px}
+.datebox{flex:1;min-width:0;position:relative;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600}
+.datebox small{font-weight:400;color:var(--mut);font-size:12.5px}
+.datebox select,.datebox input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+#dp{display:none}
+.hours{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding:0 40%}
+.hours::-webkit-scrollbar{display:none}
+.chip{scroll-snap-align:center;flex:none;min-width:52px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;cursor:pointer;padding:0 8px}
+.chip b{font-size:14px;font-weight:600}.chip small{font-size:10.5px;color:var(--mut);margin-top:2px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}.chip.on small{color:rgba(255,255,255,.8)}
+.chip:disabled{opacity:.35;cursor:default}
+.filt{display:none;gap:8px;padding:0 0 10px}.filt.open{display:grid;grid-template-columns:1fr}
+.fld{height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);padding:0 12px;width:100%;min-width:0;font-size:15px}
+.fld:focus{outline:2px solid var(--accs);border-color:var(--acc)}
+/* layout */
+.side{display:none}
+main{max-width:720px;margin:0 auto;padding:12px 0 calc(90px + var(--sb))}
+.sum-line{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:4px 2px 6px}
+.sum-line h2{font-size:20px;margin:0;letter-spacing:.2px}.sum-line span{font-size:13px;color:var(--mut)}
+.hr{position:sticky;top:var(--hh,150px);z-index:5;display:flex;align-items:center;gap:8px;padding:10px 2px 6px;background:var(--bg);font-size:13px;font-weight:600;color:var(--sub)}
+.hr i{font-style:normal;background:var(--accs);color:var(--acc);border-radius:999px;padding:1px 9px;font-size:12px}.hr::after{content:"";flex:1;height:1px;background:var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px 14px 12px;margin:0 0 10px}
+.ah{display:flex;align-items:center;gap:10px;min-width:0}
+.av{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px}
+.who{min-width:0;flex:1;line-height:1.3}.who b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who span{font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.bd{flex:none;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accs);color:var(--acc)}.bd.q{background:var(--qs);color:var(--q)}
+.zh{font-size:16.5px;line-height:1.7;font-weight:500;margin:10px 0 8px;word-break:break-word}.zh.p{color:#dc2626}
+details.en{background:var(--soft);border-radius:10px;font-size:13.5px;color:var(--sub)}
+details.en summary{list-style:none;cursor:pointer;padding:8px 12px;font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px;min-height:36px}
+details.en summary::-webkit-details-marker{display:none}details.en summary::before{content:"›";display:inline-block;transition:transform .15s;font-size:15px}
+details.en[open] summary::before{transform:rotate(90deg)}
+details.en .tx{padding:0 12px 10px;white-space:pre-wrap;word-break:break-word;line-height:1.6}
+details.en:not([open]) .pv{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:0 12px 10px;white-space:pre-wrap;word-break:break-word}
+details.en[open] .pv{display:none}
+.ft{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12.5px;color:var(--mut)}
+.ft span{display:inline-flex;align-items:center;gap:4px}.ft svg{width:14px;height:14px}
+.go{margin-left:auto;display:inline-flex;align-items:center;gap:4px;height:36px;padding:0 12px;border-radius:10px;background:var(--accs);color:var(--acc);text-decoration:none;font-weight:600;font-size:13px}
+.more{display:block;width:100%;height:48px;margin:6px 0 0;border-radius:12px;border:1px dashed var(--line);background:var(--card);cursor:pointer;color:var(--acc);font-weight:600}
+.empty{text-align:center;padding:56px 16px;color:var(--mut)}.empty div{font-size:40px;margin-bottom:6px}
+.sk{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.sk i{display:block;height:12px;border-radius:6px;margin:8px 0;background:linear-gradient(90deg,var(--soft) 25%,var(--line) 50%,var(--soft) 75%);background-size:200% 100%;animation:sh 1.2s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.fab{position:fixed;right:calc(16px + var(--srr));bottom:calc(18px + var(--sb));width:48px;height:48px;border-radius:50%;border:0;background:var(--acc);color:#fff;box-shadow:0 6px 18px rgba(37,99,235,.35);display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:.2s;z-index:30}
+.fab.show{opacity:1;pointer-events:auto;transform:none}.fab svg{width:20px;height:20px}
+/* desktop */
+@media(min-width:960px){
+ .top{display:none}
+ .app{display:grid;grid-template-columns:300px minmax(0,720px);gap:28px;justify-content:center}
+ .side{display:block;position:sticky;top:0;height:100vh;overflow:auto;padding:22px 0 22px;scrollbar-width:thin}
+ .side .brand{padding:0 0 14px}.side .fb{display:none}.side .daterow{padding:4px 0 10px}
+ .side .hours{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;padding:0}.side .chip{min-width:0}.side .chip.all{grid-column:span 4;flex-direction:row;gap:8px}
+ .side .filt{display:grid;padding:14px 0 0}
+ .lbl{font-size:12px;color:var(--mut);font-weight:600;margin:14px 2px 8px;letter-spacing:.5px}
+ main{margin:0;padding-top:22px}.hr{top:0}
+ .card{padding:16px 18px 14px}.fab{right:32px;bottom:32px}
+}
+@media(max-width:959px){.lbl{display:none}}
+</style></head><body>
+<div class="app">
+<header class="top" id="hd"></header>
+<aside class="side" id="sd"></aside>
+<main><div class="sum-line"><h2 id="tt">　</h2><span id="cn"></span></div><div id="m"></div></main>
+</div>
+<button class="fab" id="fab" aria-label="回到顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<template id="ctl">
+ <div class="brand"><div class="logo">X</div><div style="min-width:0"><h1>关注博主动态</h1><p class="st">加载中…</p></div><button class="bt fb" aria-label="筛选"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>筛选<span class="dot"></span></button></div>
+ <div class="lbl">日期</div>
+ <div class="daterow"><button class="ib pv" aria-label="前一天"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+ <label class="datebox"><span class="dl">—</span><small class="dw"></small><select class="dy" aria-label="选择日期"></select></label>
+ <button class="ib nx" aria-label="后一天"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
+ <div class="lbl">小时（北京时间）</div>
+ <div class="hours"></div>
+ <div class="lbl">筛选</div>
+ <div class="filt"><select class="fld au"><option value="">全部作者</option></select><input class="fld q" type="search" placeholder="搜索概括 / 原文 / 作者" enterkeyhint="search"></div>
+</template>
+<input type="date" id="dp">
+<script>
+const WD=['周日','周一','周二','周三','周四','周五','周六'],$=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const I={like:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',rt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg>',re:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'};
+const PAL=['#2563eb','#7c3aed','#db2777','#dc2626','#ea580c','#ca8a04','#16a34a','#0d9488','#0891b2','#4f46e5','#9333ea','#c026d3'];
+const col=h=>{let x=0;for(const c of h)x=(x*31+c.charCodeAt(0))>>>0;return PAL[x%PAL.length]};
+const ini=(n,h)=>{const s=(n||h).trim();const m=s.match(/[\u4e00-\u9fff]|[A-Za-z0-9]/);return (m?m[0]:s[0]||'?').toUpperCase()};
+const fmt=n=>n>=10000?(n/10000).toFixed(1).replace(/\.0$/,'')+'万':n;
+let IDX,DAY=null,HOUR=null,cache={},LIM=150,AU='',Q='';
+const T=$('ctl').content;$('hd').appendChild(T.cloneNode(true));$('sd').appendChild(T.cloneNode(true));
+const all=s=>document.querySelectorAll(s);
+const wd=d=>WD[new Date(d+'T12:00:00Z').getUTCDay()];
+const hh=h=>String(h).padStart(2,'0');
+async function J(u){const r=await fetch(u,{cache:'no-cache'});if(!r.ok)throw Error(u+' '+r.status);return r.json()}
+function setHash(){history.replaceState(null,'','#'+DAY+(HOUR===null?'':'/'+hh(HOUR)))}
+function skel(){$('m').innerHTML=Array(4).fill('<div class="sk"><i style="width:40%"></i><i></i><i style="width:85%"></i><i style="width:60%"></i></div>').join('')}
+async function load(day,hour){const di=IDX.days.find(x=>x.day===day);if(!di)return;DAY=day;
+ if(hour===undefined){hour=-1;for(let h=23;h>=0;h--)if(di.h[h]){hour=h;break}if(hour<0)hour=null}
+ HOUR=hour;LIM=150;all('.dy').forEach(s=>s.value=day);all('.dl').forEach(e=>e.textContent=day.slice(5).replace('-','月')+'日');all('.dw').forEach(e=>e.textContent=wd(day)+' · '+di.n+'条');
+ const i=IDX.days.findIndex(x=>x.day===day);all('.pv').forEach(b=>b.disabled=i>=IDX.days.length-1);all('.nx').forEach(b=>b.disabled=i<=0);
+ skel();hours(di);
+ const d=cache[day]||(cache[day]=await J('data/'+day+'.json'));
+ const c={};d.posts.forEach(p=>c[p[1]]=(c[p[1]]||0)+1);if(!c[AU])AU='';
+ all('.au').forEach(au=>{au.length=1;Object.keys(c).sort((a,b)=>c[b]-c[a]).forEach(h=>au.add(new Option((d.names[h]||h)+' @'+h+'（'+c[h]+'）',h)));au.value=AU});
+ render();setHash()}
+function hours(di){all('.hours').forEach(hs=>{hs.innerHTML='';let on;
+ const mk=(lab,n,h)=>{const b=document.createElement('button');b.className='chip'+(h===null?' all':'')+(h===HOUR?' on':'');b.innerHTML='<b>'+lab+'</b><small>'+n+'</small>';if(!n&&h!==null)b.disabled=true;
+  b.onclick=()=>{HOUR=h;LIM=150;hours(di);render();setHash();scrollTo({top:0})};hs.appendChild(b);if(h===HOUR)on=b};
+ mk('全天',di.n,null);for(let h=0;h<24;h++)mk(hh(h),di.h[h],h);
+ if(on&&hs.closest('.top'))requestAnimationFrame(()=>{hs.scrollLeft=on.offsetLeft-hs.clientWidth/2+on.offsetWidth/2})})}
+function card(p,N){const n=N[p[1]]||p[1];return '<article class="card"><div class="ah"><div class="av" style="background:'+col(p[1])+'">'+esc(ini(n,p[1]))+'</div><div class="who"><b>'+esc(n)+'</b><span>@'+esc(p[1])+' · '+p[2].slice(11)+'</span></div><span class="bd '+p[3]+'">'+(p[3]=='q'?'引用':'原创')+'</span></div>'+
+ '<div class="zh'+(p[8]==='（待补）'?' p':'')+'">'+esc(p[8])+'</div>'+
+ (p[4].trim()?'<details class="en"><summary>英文原文</summary><div class="tx">'+esc(p[4])+'</div></details>':'')+
+ '<div class="ft"><span>'+I.like+fmt(p[5])+'</span><span>'+I.rt+fmt(p[6])+'</span><span>'+I.re+fmt(p[7])+'</span><a class="go" href="https://x.com/'+encodeURIComponent(p[1])+'/status/'+p[0]+'" target="_blank" rel="noopener">查看原帖 ↗</a></div></article>'}
+function render(){const d=cache[DAY];if(!d)return;const s=Q.trim().toLowerCase();
+ all('.fb').forEach(b=>b.classList.toggle('has',!!(AU||s)));
+ const F=d.posts.filter(p=>(HOUR===null||+p[2].slice(11,13)===HOUR)&&(!AU||p[1]===AU)&&(!s||(p[4]+' '+p[8]+' '+p[1]+' '+(d.names[p[1]]||'')).toLowerCase().includes(s)));
+ $('tt').textContent=HOUR===null?'全天动态':hh(HOUR)+':00 – '+hh(HOUR)+':59';$('cn').textContent=DAY+' '+wd(DAY)+' · '+F.length+' 条';
+ let h='',cur='';F.slice(0,LIM).forEach(p=>{const k=p[2].slice(11,13);if(HOUR===null&&k!==cur){cur=k;h+='<div class="hr">'+k+':00<i>'+d.posts.filter(x=>x[2].slice(11,13)===k).length+' 条</i></div>'}h+=card(p,d.names)});
+ if(!F.length)h='<div class="empty"><div>🌙</div>'+(AU||s?'没有符合筛选条件的动态':(HOUR===null?'这一天没有动态':'这个小时没有动态'))+'</div>';
+ if(F.length>LIM)h+='<button class="more" id="mo">显示更多（还有 '+(F.length-LIM)+' 条）</button>';
+ $('m').innerHTML=h;if($('mo'))$('mo').onclick=()=>{LIM+=200;render()};sz()}
+function sz(){const t=$('hd');document.documentElement.style.setProperty('--hh',(getComputedStyle(t).display=='none'?0:t.offsetHeight)+'px')}
+function step(k){const i=IDX.days.findIndex(x=>x.day===DAY)+k;if(IDX.days[i])load(IDX.days[i].day)}
+addEventListener('resize',sz);addEventListener('scroll',()=>$('fab').classList.toggle('show',scrollY>600),{passive:true});$('fab').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+all('.fb').forEach(b=>b.onclick=()=>{const f=$('hd').querySelector('.filt');f.classList.toggle('open');b.classList.toggle('on');sz();if(f.classList.contains('open'))f.querySelector('.q').focus({preventScroll:true})});
+(async()=>{skel();try{IDX=await J('data/index.json')}catch(e){all('.st').forEach(x=>x.textContent='数据加载失败，请刷新');$('m').innerHTML='<div class="empty"><div>⚠️</div>数据加载失败</div>';return}
+ all('.st').forEach(x=>x.textContent='共 '+IDX.total.toLocaleString()+' 条 · '+IDX.authors+' 位博主 · 更新至 '+IDX.last.slice(5)+'（北京时间）');
+ all('.dy').forEach(s=>{IDX.days.forEach(x=>s.add(new Option(x.day+' '+wd(x.day)+'（'+x.n+' 条）',x.day)));s.onchange=()=>load(s.value)});
+ all('.pv').forEach(b=>b.onclick=()=>step(1));all('.nx').forEach(b=>b.onclick=()=>step(-1));
+ all('.au').forEach(a=>a.onchange=()=>{AU=a.value;all('.au').forEach(x=>x.value=AU);LIM=150;render()});
+ let t;all('.q').forEach(q=>q.oninput=()=>{Q=q.value;all('.q').forEach(x=>{if(x!==q)x.value=Q});clearTimeout(t);t=setTimeout(()=>{LIM=150;render()},250)});
+ const m=location.hash.match(/^#(\d{4}-\d\d-\d\d)(?:\/(\d\d))?/);if(m&&IDX.days.some(x=>x.day===m[1]))load(m[1],m[2]===undefined?null:+m[2]);else load(IDX.days[0].day)})();
+</script></body></html>
